@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -48,14 +48,14 @@ class _MyAppState extends State<MyApp> {
             body: Form(
               key: _formKey,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _email,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         label: Text('Email'),
                       ),
                       validator: (value) {
@@ -69,14 +69,15 @@ class _MyAppState extends State<MyApp> {
                         }
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
-                        obscureText: showPassword % 2 == 0 ? false : true,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        obscureText: showPassword % 2 == 0 ? true : false,
                         controller: _password,
                         decoration: InputDecoration(
-                          label: Text('Password'),
+                          label: const Text('Password'),
                           suffix: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -92,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                             return 'This field can not be empty';
                           }
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     InkWell(
@@ -104,7 +105,7 @@ class _MyAppState extends State<MyApp> {
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text('Submit'),
                         ),
                       ),
