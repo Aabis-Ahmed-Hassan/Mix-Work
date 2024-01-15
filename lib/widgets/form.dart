@@ -24,6 +24,13 @@ class _MyAppState extends State<MyApp> {
 
   var showPassword = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    submitButtonIsPressed = false;
+    showPassword = 0;
+  }
+
   mySubmitButton() {
     setState(() {
       submitButtonIsPressed = true;
