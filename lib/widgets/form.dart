@@ -1,18 +1,34 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
 
+  bool submitButtonIsPressed =
+      false; //responsible for not showing the error when the user is entering email for the first time.
+
+  var showPassword = 0;
+
   mySubmitButton() {
+    setState(() {
+      submitButtonIsPressed = true;
+    });
+
     if (_formKey.currentState!.validate()) {}
   }
 
@@ -30,11 +46,19 @@ class MyApp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _email,
-                      decoration: InputDecoration(label: Text('Email')),
+                      decoration: InputDecoration(
+                        label: Text('Email'),
+                      ),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter something';
+                          return 'This field can not be empty';
+                        } else if (!RegExp(
+                                    r"^[a-zA-Z0-9_+-.]+[@][a-zA-Z0-9]+[.][a-z]+")
+                                .hasMatch(value) &&
+                            submitButtonIsPressed) {
+                          return 'Invalid Email Syntax';
                         }
                       },
                     ),
@@ -42,11 +66,23 @@ class MyApp extends StatelessWidget {
                       height: 10,
                     ),
                     TextFormField(
+                        obscureText: showPassword % 2 == 0 ? false : true,
                         controller: _password,
-                        decoration: InputDecoration(label: Text('Password')),
+                        decoration: InputDecoration(
+                          label: Text('Password'),
+                          suffix: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  showPassword++;
+                                });
+                              },
+                              icon: Icon(showPassword % 2 == 0
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility)),
+                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter the password';
+                            return 'This field can not be empty';
                           }
                         }),
                     SizedBox(
@@ -57,7 +93,10 @@ class MyApp extends StatelessWidget {
                       child: Container(
                         height: 50,
                         width: 150,
-                        color: Colors.blue,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                         child: Center(
                           child: Text('Submit'),
                         ),
