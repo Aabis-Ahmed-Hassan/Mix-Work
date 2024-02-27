@@ -1,0 +1,76 @@
+class MyImagePicker extends StatefulWidget {
+  const MyImagePicker({super.key});
+
+  @override
+  State<MyImagePicker> createState() => _MyImagePickerState();
+}
+
+class _MyImagePickerState extends State<MyImagePicker> {
+  File? myImage;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedImage = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedImage != null) {
+        myImage = File(pickedImage.path);
+      } else {
+        print('Image is not selected successfully!');
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.indigo,
+          title: Text(
+            'Image Picker',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              myImage == null
+                  ? Text(
+                      'No Image is Selected',
+                      style: TextStyle(
+                        fontSize: 32,
+                      ),
+                    )
+                  : Image.file(myImage!),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Colors.indigo,
+                  ),
+                ),
+                onPressed: () {
+                  getImage();
+                },
+                child: Text(
+                  myImage == null ? 'Upload Image' : 'Change Image',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
