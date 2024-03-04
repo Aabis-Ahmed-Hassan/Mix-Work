@@ -1,0 +1,51 @@
+//this will not work
+/*      home: Scaffold(
+          body: SingleChildScrollView(
+        child: Column(
+
+          children: [
+            Text(
+              'Hello',
+              style: TextStyle(fontSize: 50),
+            ),
+
+            Flexible(
+              child: Text('Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello ',),
+            ),
+            Text(
+              'Hello',
+              style: TextStyle(fontSize: 50),
+            ),
+          ],
+        ),
+      ),),
+*/
+
+
+
+
+//this will work
+      home: Scaffold(
+          body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Hello',
+              style: TextStyle(fontSize: 50),
+            ),
+
+            Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                'Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello ',
+              ),
+            ),
+
+            Text(
+              'Hello',
+              style: TextStyle(fontSize: 50),
+            ),
+          ],
+        ),
+      )),
